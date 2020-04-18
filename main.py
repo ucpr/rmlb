@@ -29,9 +29,9 @@ def get_local_branches() -> Set[str]:
     return set(branch_list)
 
 
-def remove_local_branches(branches: Set[str]) -> None:
+def remove_local_branches(branches: Set[str], remove_option="-d") -> None:
     for branch in branches:
-        proc = subprocess.run(f"git branch -d {branch}", shell=True, stdout=PIPE, stderr=PIPE, text=True)
+        proc = subprocess.run(f"git branch {remove_option} {branch}", shell=True, stdout=PIPE, stderr=PIPE, text=True)
         if proc.returncode != 0:
             # Occurs when unmerged branches are removed.
             logger.info(f"error: The branch '{branch}' is not fully merged.")
@@ -42,7 +42,7 @@ def remove_local_branches(branches: Set[str]) -> None:
 def main():
     local_branch: Set[str] = get_local_branches()
     remote_branch: Set[str] = get_remote_branches()
-
+    
     remove_local_branches(local_branch - remote_branch)
 
 
