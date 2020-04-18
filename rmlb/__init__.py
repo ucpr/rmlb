@@ -83,7 +83,7 @@ def main():
         # If only Enter is used, allow it.
         if q not in ["y", "Y", ""]:
             os.exit(0)
-            
+
     remove_local_branches(local_branch - remote_branch, opt.rm_opt)
 
 
