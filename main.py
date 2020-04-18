@@ -1,15 +1,11 @@
-from logging import getLogger, StreamHandler, DEBUG
+from argparse import ArgumentParser
+from logging import getLogger, StreamHandler, DEBUG, ERROR
 import os
 import subprocess
 from subprocess import PIPE
 from typing import Set
 
 logger = getLogger(__name__)
-handler = StreamHandler()
-handler.setLevel(DEBUG)
-logger.setLevel(DEBUG)
-logger.addHandler(handler)
-logger.propagate = False
 
 
 def get_remote_branches() -> Set[str]:
@@ -39,12 +35,41 @@ def remove_local_branches(branches: Set[str], remove_option="-d") -> None:
             logger.info("removed " + branch)
 
 
+def get_option() -> None:
+    arg_parser = ArgumentParser()
+    arg_parser.add_argument("-ro", "--remove-option", type=str,
+                            choices=["-d", "-D"],
+                            dest="rm_opt", default="-d",
+                            help="Options for removing a branch. The default is '-d'.")
+    arg_parser.add_argument("-q", "--quiet",
+                            action="store_true",
+                            help="No output.")
+
+    return arg_parser.parse_args()
+
+
 def main():
     local_branch: Set[str] = get_local_branches()
     remote_branch: Set[str] = get_remote_branches()
-    
-    remove_local_branches(local_branch - remote_branch)
 
+    opt = get_option()
+
+    # setting log level
+    log_level = DEBUG
+    if opt.quiet:
+        log_level = ERROR
+
+    handler = StreamHandler()
+    handler.setLevel(log_level)
+    logger.setLevel(log_level)
+    logger.addHandler(handler)
+    logger.propagate = False
+
+    if not opt.quiet and opt.rm_opt == "-D":
+        q = input("Is it ok if the branches that have not been merged are also deleted? (y/n) >")
+        # If only Enter is used, allow it.
+        if q in ["y", "Y", ""]:
+            remove_local_branches(local_branch - remote_branch, opt.rm_opt)
 
 
 if __name__ == "__main__":
