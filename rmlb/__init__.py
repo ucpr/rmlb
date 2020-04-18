@@ -81,8 +81,10 @@ def main():
             "Is it ok if the branches that have not been merged are also deleted? (y/n) >"
         )
         # If only Enter is used, allow it.
-        if q in ["y", "Y", ""]:
-            remove_local_branches(local_branch - remote_branch, opt.rm_opt)
+        if q not in ["y", "Y", ""]:
+            os.exit(0)
+            
+    remove_local_branches(local_branch - remote_branch, opt.rm_opt)
 
 
 if __name__ == "__main__":
