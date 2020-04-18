@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "rmlb"
-version = "0.1.1"
+version = "0.1.2"
 description = "Remove a branch that does not exist in remote."
 authors = ["ucpr <hoge.uchihara@gmail.com>"]
 license = "MIT"
