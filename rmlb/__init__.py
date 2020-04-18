@@ -78,7 +78,7 @@ def main():
 
     if not opt.quiet and opt.rm_opt == "-D":
         q = input(
-            "Is it ok if the branches that have not been merged are also deleted? (y/n) >"
+            "Is it ok if the branches that have not been merged are also deleted? (y/n)[y] >"
         )
         # If only Enter is used, allow it.
         if q not in ["y", "Y", ""]:
