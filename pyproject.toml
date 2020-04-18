@@ -14,3 +14,6 @@ black = "^19.10b0"
 [build-system]
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
+
+[tool.poetry.scripts]
+rmlb = "rmlb:main"
