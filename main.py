@@ -40,8 +40,8 @@ def remove_local_branches(branches: Set[str]) -> None:
 
 
 def main():
-    local_branch = get_local_branches()
-    remote_branch = get_remote_branches()
+    local_branch: Set[str] = get_local_branches()
+    remote_branch: Set[str] = get_remote_branches()
 
     remove_local_branches(local_branch - remote_branch)
 
