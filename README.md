@@ -1,4 +1,8 @@
 # rmlb
+![Actions Status](https://img.shields.io/github/workflow/status/ucpr/rmlb/CI?style=flat-square)
+![PyPI - Package Version](https://img.shields.io/pypi/v/rmlb?style=flat-square)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/rmlb?style=flat-square)
+![PyPI - License](https://img.shields.io/pypi/l/rmlb?style=flat-square)
 
 Remove a branch that does not exist in remote.
 
