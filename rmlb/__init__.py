@@ -27,6 +27,10 @@ def get_local_branches() -> Set[str]:
     return set(branch_list)
 
 
+def exec_fetch_prune() -> None:
+    subprocess.run("git fetch --prune", shell=True, stdout=PIPE, stderr=PIPE, text=True)
+
+
 def remove_local_branches(branches: Set[str], remove_option="-d") -> None:
     for branch in branches:
         proc = subprocess.run(
@@ -54,6 +58,14 @@ def get_option() -> None:
         default="-d",
         help="Options for removing a branch. The default is '-d'.",
     )
+    arg_parser.add_argument(
+        "-fp",
+        "--fetch-prune",
+        type=bool,
+        dest="fetch_prune",
+        default=True,
+        help="execute \"git fetch --prune\" before deleting the branch"
+    )
     arg_parser.add_argument("-q", "--quiet", action="store_true", help="No output.")
 
     return arg_parser.parse_args()
@@ -75,6 +87,9 @@ def main():
     logger.setLevel(log_level)
     logger.addHandler(handler)
     logger.propagate = False
+
+    if opt.fetch_prune:
+        exec_fetch_prune()
 
     if not opt.quiet and opt.rm_opt == "-D":
         q = input(
